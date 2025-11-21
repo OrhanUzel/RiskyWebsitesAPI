@@ -3,9 +3,11 @@ using Microsoft.Extensions.Caching.Memory;
 using RiskyWebsitesAPI.Security;
 using System.Collections.Concurrent;
 
-// Bu servis, GitHub üzerindeki üç txt dosyasını indirir ve bellekte tutar.
-// İstek geldiğinde verilen domainin (host) bu listelerde olup olmadığını kontrol eder.
-public class RiskDomainService
+namespace RiskyWebsitesAPI.Services
+{
+    // Bu servis, GitHub üzerindeki üç txt dosyasını indirir ve bellekte tutar.
+    // İstek geldiğinde verilen domainin (host) bu listelerde olup olmadığını kontrol eder.
+    public class RiskDomainService
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IMemoryCache _cache;

@@ -53,7 +53,7 @@ sudo apt-get install -y docker.io docker-compose
 # Proje dizinine git
 cd /home/kullaniciadi/risky-websites-api
 
-# Docker image build etme
+# Docker image build etme 
 docker build -t risky-websites-api:latest .
 
 # Container'ı başlatma
