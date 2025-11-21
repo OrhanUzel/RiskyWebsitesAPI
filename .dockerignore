@@ -1,0 +1,74 @@
+# Build results
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.pidb
+*.psess
+*.userosscache
+*.sln.docstates
+
+# Build logs
+*.log
+*.vspscc
+*.vssscc
+
+# Visual Studio
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# IDE files
+.idea/
+*.sln.iml
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Package files
+*.nupkg
+*.snupkg
+packages/
+
+# Publish output
+publish/
+wwwroot/
