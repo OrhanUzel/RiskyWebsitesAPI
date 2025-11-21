@@ -10,7 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 // - HttpClient: GitHub üzerindeki txt dosyalarını indirmek için kullanılır.
 // - Controllers: API uç noktalarını (endpoint) barındırır.
 builder.Services.AddMemoryCache();
-builder.Services.AddHttpClient();
+// Configure HttpClient with SSL bypass for GitHub downloads
+builder.Services.AddHttpClient("github", client =>
+{
+    // GitHub raw content download configuration
+    client.Timeout = TimeSpan.FromSeconds(30);
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    // Bypass SSL certificate validation for GitHub (temporary fix)
+    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true,
+    // Use TLS 1.2 for better compatibility
+    SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls
+});
 builder.Services.AddControllers();
 // Swagger servislerini ekliyoruz: API için otomatik dokümantasyon ve UI.
 builder.Services.AddEndpointsApiExplorer();

@@ -83,7 +83,7 @@ namespace RiskyWebsitesAPI.Services
                 {
                     _logger.LogInformation($"GitHub'dan dosya indiriliyor: {url}");
                     
-                    var client = _httpClientFactory.CreateClient();
+                    var client = _httpClientFactory.CreateClient("github");
                     using var resp = await client.GetAsync(url);
                     resp.EnsureSuccessStatusCode();
                     var content = await resp.Content.ReadAsStringAsync();
