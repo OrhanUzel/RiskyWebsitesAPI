@@ -54,6 +54,8 @@ sudo apt-get install -y docker.io docker-compose
 cd /home/kullaniciadi/risky-websites-api
 
 # Docker image build etme 
+# ÖNCE: Tüm hataları düzelttiğinizden emin olun
+# - dotnet build komutu 0 error vermeli
 docker build -t risky-websites-api:latest .
 
 # Container'ı başlatma

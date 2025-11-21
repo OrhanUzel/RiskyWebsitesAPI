@@ -80,10 +80,8 @@ public class MemoryProtectionService
 
     public void RemoveCacheEntry(string key)
     {
-        if (_cache.Remove(key) != null)
-        {
-            Interlocked.Decrement(ref _currentCacheEntries);
-        }
+        _cache.Remove(key);
+        Interlocked.Decrement(ref _currentCacheEntries);
     }
 
     private bool IsMemoryLimitExceeded()

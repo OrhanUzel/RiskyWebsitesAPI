@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RiskyWebsitesAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b4a6b3ae1eddbfa6d2f31a52b132f24d7e73d705")]
 [assembly: System.Reflection.AssemblyProductAttribute("RiskyWebsitesAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RiskyWebsitesAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
