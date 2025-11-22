@@ -29,7 +29,17 @@ builder.Services.AddSwaggerGen();
 
 // RiskDomainService tekil (Singleton) servis olarak eklenir.
 // İlk istek geldiğinde listeleri indirip önbelleğe alır ve belli aralıklarla yeniler.
-builder.Services.AddSingleton<RiskDomainService>();
+builder.Services.AddSingleton<RiskDomainService>(serviceProvider =>
+{
+    var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+    var cache = serviceProvider.GetRequiredService<IMemoryCache>();
+    var circuitBreaker = serviceProvider.GetRequiredService<CircuitBreakerService>();
+    var memoryProtection = serviceProvider.GetRequiredService<MemoryProtectionService>();
+    var logger = serviceProvider.GetRequiredService<ILogger<RiskDomainService>>();
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    
+    return new RiskDomainService(httpClientFactory, cache, circuitBreaker, memoryProtection, logger, configuration);
+});
 
 // Güvenlik servisleri
 builder.Services.AddSingleton<CircuitBreakerService>();

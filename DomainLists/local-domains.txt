@@ -1,0 +1,23 @@
+# Yerel Riskli Domain Listesi
+# Bu dosya, GitHub'dan indirilemeyen domain listeleri için yedek olarak kullanılır
+
+# Test için zararlı domainler
+malware.wicar.org
+phishing-site.example.com
+suspicious-domain.test
+fake-bank-site.com
+virus-distribution.net
+ransomware-download.com
+trojan-installer.com
+
+# Popüler phishing domainleri (örnek)
+paypal-security-alert.com
+amazon-account-verify.net
+bankofamerica-login.com
+google-security-check.com
+
+# Zararlı yazılım dağıtım domainleri (örnek)
+darknet-marketplace.com
+hack-tool-download.net
+crack-software.org
+keygen-download.com

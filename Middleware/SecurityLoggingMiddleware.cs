@@ -57,12 +57,16 @@ public class SecurityLoggingMiddleware
                 _logger.LogWarning($"HTTP Error: {clientIp} {context.Response.StatusCode} {requestPath}");
             }
             
-            // Response body'yi kopyala
+            // Response body'yi kopyala - önce pozisyonu sıfırla
+            responseBody.Position = 0;
             await responseBody.CopyToAsync(originalBodyStream);
+            context.Response.Body = originalBodyStream;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, $"Exception: {clientIp} {requestPath}");
+            // Hata durumunda orijinal stream'i geri yükle
+            context.Response.Body = originalBodyStream;
             throw;
         }
     }

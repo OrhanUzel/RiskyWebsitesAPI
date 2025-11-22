@@ -8,6 +8,10 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
+
+# Ensure DomainLists folder is copied
+COPY DomainLists ./DomainLists
+
 RUN dotnet publish -c Release -o out
 
 # Runtime stage
@@ -22,6 +26,9 @@ RUN update-ca-certificates
 
 # Copy published application
 COPY --from=build /app/out ./
+
+# Copy domain lists folder
+COPY --from=build /app/DomainLists ./DomainLists
 
 # Create non-root user for security
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser:appuser /app

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RiskyWebsitesAPI.Models;
 using RiskyWebsitesAPI.Services;
+using System.Text.Json;
 
 namespace RiskyWebsitesAPI.Controllers;
 
@@ -34,25 +35,50 @@ public class RiskCheckController : ControllerBase
             });
         }
 
-        // URL/Domain normalizasyonu: www. kaldırma, küçük harfe çevirme, şema yoksa ekleme vb.
-        var normalizedHost = RiskDomainService.NormalizeToHost(url);
-
-        // Risk kontrolü: GitHub'dan indirilen listelerde var mı?
-        var result = await _riskService.CheckDomainAsync(normalizedHost);
-
-        // Kullanıcıya anlayacağı şekilde Türkçe mesaj üretimi.
-        string message = result.IsRisky
-            ? "Girilen site riskli listelerde bulundu. Lütfen dikkatli olun."
-            : "Girilen site riskli listelerde bulunamadı.";
-
-        var response = new RiskCheckResponse
+        try
         {
-            IsRisky = result.IsRisky,
-            Message = message,
-            CheckedDomain = normalizedHost,
-            FoundInFiles = result.FoundInFiles
-        };
+            // URL/Domain normalizasyonu: www. kaldırma, küçük harfe çevirme, şema yoksa ekleme vb.
+            var normalizedHost = RiskDomainService.NormalizeToHost(url);
 
-        return Ok(response);
+            // Risk kontrolü: GitHub'dan indirilen listelerde var mı?
+            var result = await _riskService.CheckDomainAsync(normalizedHost);
+
+            // Detaylı mesaj üretimi
+            string message;
+            if (result.IsRisky)
+            {
+                message = $"⚠️ GİRİLEN SİTE RİSKLİ LİSTELERDE BULUNDU! '{normalizedHost}' {string.Join(", ", result.FoundInFiles)} listelerinde yer alıyor. Lütfen dikkatli olun.";
+            }
+            else if (result.FoundInFiles.Length == 0)
+            {
+                message = $"✅ '{normalizedHost}' domaini riskli listelerde bulunamadı. Ancak domain listeleri yüklenirken sorun yaşanmış olabilir.";
+            }
+            else
+            {
+                message = $"✅ '{normalizedHost}' domaini riskli listelerde bulunamadı.";
+            }
+
+            var response = new RiskCheckResponse
+            {
+                IsRisky = result.IsRisky,
+                Message = message,
+                CheckedDomain = normalizedHost,
+                FoundInFiles = result.FoundInFiles
+            };
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            // Genel hata yakalama
+            Console.WriteLine($"DEBUG: Exception - {ex.Message}");
+            return StatusCode(500, new RiskCheckResponse
+            {
+                IsRisky = false,
+                Message = $"❌ Kontrol sırasında hata oluştu: {ex.Message}",
+                CheckedDomain = url,
+                FoundInFiles = Array.Empty<string>()
+            });
+        }
     }
 }
